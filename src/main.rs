@@ -121,8 +121,10 @@ fn main() {
     sc.set_layout_height(layout::Size::MatchParent);
     sc.set_layout_padding(layout::BoundarySize::AllTheSame(15).into());
     sc.on_resize(Some(
-        (|_: &mut UiMember, w: u16, h: u16| {
-             println!("SCINTILLA HAS RESIZED to {}/{}", w, h);
+        (|sc: &mut UiMember, w: u16, h: u16| {
+            println!("SCINTILLA HAS RESIZED to {}/{}", w, h);
+            let sc: &mut Scintilla = utils::common_to_impl_mut(sc.as_base_mut());
+            sc.set_margin_width(0, 25);
          }).into(),
     ));
     vb.push_child(sc);
