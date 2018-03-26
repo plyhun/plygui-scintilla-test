@@ -133,6 +133,7 @@ fn main() {
     window.set_child(Some(vb));
 
     //window.set_child(Some(button));
+    //window.set_child(Some(sc));
 
     application.start();
 }
