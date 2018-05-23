@@ -3,7 +3,6 @@ extern crate plygui_scintilla;
 
 use plygui::*;
 use plygui_scintilla::*;
-use plygui_scintilla::development::ScintillaInner;
 
 fn main() {
     let mut application = Application::with_name("Plygui test");
