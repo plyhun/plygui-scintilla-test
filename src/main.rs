@@ -16,7 +16,7 @@ fn main() {
          }).into(),
     ));
 
-    let mut sc = Spawner::new();
+    let mut sc = Scintilla::new();
     sc.set_layout_width(layout::Size::MatchParent);
     sc.set_layout_height(layout::Size::MatchParent);
     sc.set_layout_padding(layout::BoundarySize::AllTheSame(15).into());
