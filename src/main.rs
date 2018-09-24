@@ -17,6 +17,21 @@ fn create_splitted(first: Box<Control>, second: Box<Control>) -> Box<Control> {
     splitted.into_control()
 }
 
+fn create_console() -> Box<Control> {
+	use scintilla::{Console, NewConsole};
+	
+	let mut sc = scintilla::imp::Console::new(false);
+    sc.set_layout_width(layout::Size::MatchParent);
+    sc.set_layout_height(layout::Size::MatchParent);
+    sc.on_resize(Some(
+        (|sc: &mut Member, _: u16, _: u16| {
+            let co = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::Scintilla>().unwrap() as *mut _ as *mut scintilla::imp::Console;
+            unsafe { (&mut *co).exec("cmd /C dir") };
+         }).into(),
+    ));
+    sc.into_control()
+}
+
 fn create_scintilla(text: &str) -> Box<Control> {
 	use scintilla::{Scintilla, NewScintilla};
 	
@@ -34,7 +49,7 @@ fn create_scintilla(text: &str) -> Box<Control> {
 }
 
 fn root() -> Box<Control> {
-	create_splitted(create_frame("Left", create_scintilla("Hello")), create_frame("Right", create_scintilla("World")))
+	create_splitted(create_frame("Left", create_scintilla("Hello")), create_frame("Right", create_console()))
 }
 
 fn main() {
