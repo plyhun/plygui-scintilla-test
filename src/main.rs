@@ -25,8 +25,11 @@ fn create_console() -> Box<Control> {
     sc.set_layout_height(layout::Size::MatchParent);
     sc.on_resize(Some(
         (|sc: &mut Member, _: u16, _: u16| {
-            let co = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::Scintilla>().unwrap() as *mut _ as *mut scintilla::imp::Console;
+            let co = sc.as_any_mut().downcast_mut::<scintilla::imp::Console>().unwrap();
+            #[cfg(target_os = "windows")]
             unsafe { (&mut *co).exec("cmd /C dir") };
+            #[cfg(not(target_os = "windows"))]
+            unsafe { (&mut *co).exec("ls -l") };
          }).into(),
     ));
     sc.into_control()
