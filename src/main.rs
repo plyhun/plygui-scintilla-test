@@ -27,9 +27,9 @@ fn create_console() -> Box<Control> {
         (|sc: &mut Member, _: u16, _: u16| {
             let co = sc.as_any_mut().downcast_mut::<scintilla::imp::Console>().unwrap();
             #[cfg(target_os = "windows")]
-            unsafe { (&mut *co).exec("cmd /C dir") };
+            co.exec("cmd /C dir");
             #[cfg(not(target_os = "windows"))]
-            unsafe { (&mut *co).exec("ls -l") };
+            co.exec("ls -l");
          }).into(),
     ));
     sc.into_control()
