@@ -27,9 +27,9 @@ fn create_console() -> Box<Control> {
         (|sc: &mut Member, _: u16, _: u16| {
             let co = sc.as_any_mut().downcast_mut::<scintilla::imp::Console>().unwrap();
             #[cfg(target_os = "windows")]
-            unsafe { (&mut *co).exec("cmd /C dir") };
+            co.exec("cmd /C dir");
             #[cfg(not(target_os = "windows"))]
-            unsafe { (&mut *co).exec("ls -l") };
+            co.exec("ls -l");
          }).into(),
     ));
     sc.into_control()
@@ -56,7 +56,7 @@ fn root() -> Box<Control> {
 }
 
 fn main() {
-    let mut application = plygui::imp::Application::with_name("Plygui test");
+    let mut application = plygui::imp::Application::init_with_name("Plygui test");
     let mut window = application.new_window("plygui!!", WindowStartSize::Exact(1024, 768), WindowMenu::None);
     window.on_resize(Some(
         (|_: &mut Member, w: u16, h: u16| {
