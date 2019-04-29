@@ -20,8 +20,8 @@ fn create_console() -> Box<dyn Control> {
 	let mut sc = scintilla::imp::Console::new(false);
     sc.set_layout_width(layout::Size::MatchParent);
     sc.set_layout_height(layout::Size::MatchParent);
-    sc.on_resize(Some(
-        (|sc: &mut dyn Member, _: u16, _: u16| {
+    sc.on_size(Some(
+        (|sc: &mut dyn HasSize, _: u16, _: u16| {
             let co = sc.as_any_mut().downcast_mut::<scintilla::imp::Console>().unwrap();
             #[cfg(target_os = "windows")]
             co.exec("cmd /C dir");
@@ -38,8 +38,8 @@ fn create_scintilla(text: &str) -> Box<dyn Control> {
 	let mut sc = scintilla::imp::Scintilla::with_content(text);
     sc.set_layout_width(layout::Size::MatchParent);
     sc.set_layout_height(layout::Size::MatchParent);
-    sc.on_resize(Some(
-        (|sc: &mut dyn Member, w: u16, h: u16| {
+    sc.on_size(Some(
+        (|sc: &mut dyn HasSize, w: u16, h: u16| {
             println!("SCINTILLA HAS RESIZED to {}/{}", w, h);
             let sc = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::Scintilla>().unwrap();
             sc.set_margin_width(0, 25);
@@ -53,10 +53,10 @@ fn root() -> Box<dyn Control> {
 }
 
 fn main() {
-    let mut application = plygui::imp::Application::init_with_name("Plygui test");
-    let mut window = application.new_window("plygui!!", WindowStartSize::Exact(1024, 768), WindowMenu::None);
-    window.on_resize(Some(
-        (|_: &mut dyn Member, w: u16, h: u16| {
+    let mut application = plygui::imp::Application::get();
+    let mut window = application.new_window("plygui!!", WindowStartSize::Exact(1024, 768), None);
+    window.on_size(Some(
+        (|_: &mut dyn HasSize, w: u16, h: u16| {
              println!("win resized to {}/{}", w, h);
          }).into(),
     ));

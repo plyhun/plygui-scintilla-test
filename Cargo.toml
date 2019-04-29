@@ -9,5 +9,5 @@ name = "uitest"
 path = "src/main.rs"
 
 [dependencies]
-plygui = {version = "0.0.1", path = "../plygui"}
-plygui-scintilla = {version = "0.0.1", path = "../plygui-scintilla"}
+plygui = {version = "0.0.1", path = "../plygui", features = ["win32"]}
+plygui-scintilla = {version = "0.0.1", path = "../plygui-scintilla", features = ["win32"]}
