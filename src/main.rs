@@ -27,6 +27,7 @@ fn create_console() -> Box<dyn Control> {
             co.exec("cmd /C dir");
             #[cfg(not(target_os = "windows"))]
             co.exec("ls -l");
+            true
          }).into(),
     ));
     sc.into_control()
@@ -43,6 +44,7 @@ fn create_scintilla(text: &str) -> Box<dyn Control> {
             println!("SCINTILLA HAS RESIZED to {}/{}", w, h);
             let sc = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::Scintilla>().unwrap();
             sc.set_margin_width(0, 25);
+            true
          }).into(),
     ));
     sc.into_control()
@@ -53,11 +55,12 @@ fn root() -> Box<dyn Control> {
 }
 
 fn main() {
-    let mut application = plygui::imp::Application::get();
+    let mut application = plygui::imp::Application::get().unwrap();
     let mut window = application.new_window("plygui!!", WindowStartSize::Exact(1024, 768), None);
     window.on_size(Some(
         (|_: &mut dyn HasSize, w: u16, h: u16| {
              println!("win resized to {}/{}", w, h);
+             true
          }).into(),
     ));
     window.set_child(Some(root()));	
