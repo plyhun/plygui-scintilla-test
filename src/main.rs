@@ -17,7 +17,7 @@ fn create_splitted(first: Box<dyn Control>, second: Box<dyn Control>) -> Box<dyn
 fn create_console() -> Box<dyn Control> {
 	use crate::scintilla::{Console, NewConsole};
 	
-	let mut sc = scintilla::imp::Console::new(false);
+	let mut sc = scintilla::imp::Console::with_path("C:\\");
     sc.set_layout_width(layout::Size::MatchParent);
     sc.set_layout_height(layout::Size::MatchParent);
     sc.on_size(Some(
@@ -34,15 +34,15 @@ fn create_console() -> Box<dyn Control> {
 }
 
 fn create_scintilla(text: &str) -> Box<dyn Control> {
-	use crate::scintilla::{Scintilla, NewScintilla};
+	use crate::scintilla::{Scintilla, CodeEditor, NewCodeEditor};
 	
-	let mut sc = scintilla::imp::Scintilla::with_content(text);
+	let mut sc = scintilla::imp::CodeEditor::with_content(text);
     sc.set_layout_width(layout::Size::MatchParent);
     sc.set_layout_height(layout::Size::MatchParent);
     sc.on_size(Some(
         (|sc: &mut dyn HasSize, w: u16, h: u16| {
             println!("SCINTILLA HAS RESIZED to {}/{}", w, h);
-            let sc = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::Scintilla>().unwrap();
+            let sc = sc.as_any_mut().downcast_mut::<plygui_scintilla::imp::CodeEditor>().unwrap();
             sc.set_margin_width(0, 25);
             true
          }).into(),
