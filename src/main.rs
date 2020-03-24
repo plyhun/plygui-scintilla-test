@@ -55,9 +55,10 @@ fn root() -> Box<dyn Control> {
 }
 
 fn main() {
-    let mut application = plygui::imp::Application::get().unwrap();
-    let mut window = application.new_window("plygui!!", WindowStartSize::Exact(1024, 768), None);
-    window.on_size(Some(
+    let mut application = plygui::imp::Application::with_name("Plygui-Scintilla");
+    let window = application.new_window::<plygui::imp::Window>("plygui!!", WindowStartSize::Exact(1024, 768), None);
+    let window = application.find_member_mut(FindBy::Id(window)).unwrap().as_any_mut().downcast_mut::<imp::Window>().unwrap();
+        window.on_size(Some(
         (|_: &mut dyn HasSize, w: u16, h: u16| {
              println!("win resized to {}/{}", w, h);
              true
