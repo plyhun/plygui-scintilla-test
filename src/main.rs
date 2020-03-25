@@ -10,7 +10,7 @@ fn create_frame(name: &str, child: Box<dyn Control>) -> Box<dyn Control> {
 fn create_splitted(first: Box<dyn Control>, second: Box<dyn Control>) -> Box<dyn Control> {
 	let mut splitted = imp::Splitted::with_content(first, second, layout::Orientation::Horizontal);
 	splitted.set_layout_width(layout::Size::MatchParent);
-    splitted.set_layout_height(layout::Size::WrapContent);
+    splitted.set_layout_height(layout::Size::MatchParent);
     splitted.into_control()
 }
 
